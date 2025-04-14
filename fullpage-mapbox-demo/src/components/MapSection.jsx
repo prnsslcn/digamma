@@ -98,6 +98,7 @@ export default function MapSection() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
+                  whileHover={{ y: -8 }}
                 >
                   <h3 className="text-xl text-gray-500 mb-1">{summary.name} 방문자 수</h3>
                   <p className="text-5xl font-bold text-gray-900">{summary.todayVisitors.toLocaleString()}명</p>
@@ -111,6 +112,7 @@ export default function MapSection() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
+                  whileHover={{ y: -8 }}
                 >
                   <h3 className="text-xl font-medium mb-1">행사</h3>
                   <ul className="text-2xl space-y-1">
@@ -128,6 +130,7 @@ export default function MapSection() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
+                  whileHover={{ y: -8 }}
                 >
                   <h3 className="text-xl font-medium mb-1">관심 키워드</h3>
                   <div className="flex flex-wrap gap-2">
@@ -145,6 +148,7 @@ export default function MapSection() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
+                  whileHover={{ y: -8 }}
                 >
                   <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
                   <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
@@ -158,6 +162,7 @@ export default function MapSection() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
+                  whileHover={{ y: -8 }}
                 >
                   <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
                   <p className="text-4xl font-bold text-green-500">얘도 더미데이터</p>
@@ -176,6 +181,7 @@ export default function MapSection() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
+                  whileHover={{ y: -8 }}
                 >
                   <div className="text-center">
                     <p className="text-4xl font-bold text-indigo-600 hover:text-white transition">
