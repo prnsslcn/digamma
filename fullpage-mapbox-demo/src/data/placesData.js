@@ -2,7 +2,7 @@ export const places = {
     seoulPlaza: {
       name: "서울시청 광장",
       address: "중구 세종대로 110",
-      image: "/assets/seoulplaza.jpeg",
+      image: "https://wimg.heraldcorp.com/content/default/2023/04/24/20230424000105_0.jpg",
       todayVisitors: 28900,
       weeklyStats: [
         { day: "Mon", population: 23000 },
@@ -19,7 +19,7 @@ export const places = {
     lotteTower: {
       name: "롯데월드타워",
       address: "서울 송파구 올림픽로 300",
-      image: "/assets/lottetower.jpeg",
+      image: "https://jmagazine.joins.com/_data/photo/2018/12/3717398825_hzfJC4PZ_1.jpg",
       todayVisitors: 45200,
       weeklyStats: [
         { day: "Mon", population: 31000 },
