@@ -4,6 +4,7 @@ import MapSection from './components/MapSection';
 import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
+import MyPage from './components/MyPage';
 
 function App() {
   useEffect(() => {
@@ -22,21 +23,20 @@ function App() {
   return (
     <ReactFullpage
       scrollingSpeed={700}
+      controlArrows={false}
       render={() => {
         return (
           <ReactFullpage.Wrapper>
+            {/* 첫 번째 섹션: 가로 슬라이드 2개 (지도, 마이페이지) */}
             <div className="section">
-              <MapSection />
+              <div className="slide"><MapSection /></div>
+              <div className="slide"><MyPage /></div>
             </div>
-            <div className="section">
-              <About />
-            </div>
-            <div className="section">
-              <Projects />
-            </div>
-            <div className="section">
-              <Contact />
-            </div>
+
+            {/* 이후 세로 섹션들 (About, Projects, Contact) */}
+            <div className="section"><About /></div>
+            <div className="section"><Projects /></div>
+            <div className="section"><Contact /></div>
           </ReactFullpage.Wrapper>
         );
       }}
