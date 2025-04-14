@@ -19,7 +19,7 @@ const cardVariants = {
     scale: 1,
     rotate: 0,
     transition: {
-      delay: i * 0.07,
+      delay: i * 0.05,
       type: 'spring',
       stiffness: 80,
       damping: 12,
@@ -60,7 +60,7 @@ export default function MapSection() {
       marker.getElement().addEventListener('click', () => {
         setSelectedPlace(place.id);
         setFocusedPlace(place.id);
-        map.flyTo({ center: place.coords, zoom: 16, pitch: 45, bearing: 45 });
+        map.flyTo({ center: place.coords, zoom: 16, pitch: 45 });
         map.once('moveend', () => {
           setShowFocusCard(true);
         });
@@ -82,9 +82,12 @@ export default function MapSection() {
             animate="visible"
             exit="exit"
           >
-            <div
-              className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10"
-              onClick={() => setShowFocusCard(false)}
+            <motion.div
+                className="absolute inset-0 z-10 bg-white/50 backdrop-blur-sm"
+                initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+                animate={{ opacity: 1, backdropFilter: 'blur(8px)', transition: { duration: 0.6 } }}
+                exit={{ opacity: 0, backdropFilter: 'blur(0px)', transition: { duration: 0.4 } }}
+                onClick={() => setShowFocusCard(false)}
             />
             <div
               className="relative z-20 flex flex-wrap justify-center items-center gap-4 max-w-5xl w-full px-6"
@@ -235,7 +238,7 @@ export default function MapSection() {
                 exit="exit"
                 whileHover={{ y: -8 }}
               >
-                자세히 보기  &gt;
+                자세히 보기 →
               </motion.div>
             </div>
           </motion.div>
