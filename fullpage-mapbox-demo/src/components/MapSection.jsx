@@ -72,6 +72,14 @@ export default function MapSection() {
 
   return (
     <div className="relative w-screen h-screen">
+        <div className="absolute top-6 right-6 z-30">
+        <button
+          className="bg-white shadow-md px-4 py-2 rounded-xl font-semibold hover:bg-indigo-500 hover:text-white transition"
+          onClick={() => window.fullpage_api.moveSlideRight()}
+        >
+          마이페이지 →
+        </button>
+      </div>
       <div className="w-full h-full" ref={mapContainer} />
 
       <AnimatePresence>
@@ -83,7 +91,7 @@ export default function MapSection() {
             exit="exit"
           >
             <motion.div
-                className="absolute inset-0 z-10 bg-white/50 backdrop-blur-sm"
+                className="absolute inset-0 z-10 bg-white/30 backdrop-blur-sm"
                 initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
                 animate={{ opacity: 1, backdropFilter: 'blur(8px)', transition: { duration: 0.6 } }}
                 exit={{ opacity: 0, backdropFilter: 'blur(0px)', transition: { duration: 0.4 } }}
@@ -93,46 +101,6 @@ export default function MapSection() {
               className="relative z-20 flex flex-wrap justify-center items-center gap-4 max-w-5xl w-full px-6"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* 카드 1 */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={0}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
-                <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
-              </motion.div>
-
-              {/* 카드 2 */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={1}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
-                <p className="text-4xl font-bold text-green-500">얘도 더미데이터</p>
-              </motion.div>
-              {/* 카드 3 */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={2}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
-                <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
-              </motion.div>
               {/* 카드 4 */}
               <motion.div
                 className="bg-white rounded-2xl shadow-lg p-4"
@@ -197,19 +165,6 @@ export default function MapSection() {
                 <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
               </motion.div>
 
-              {/* 카드 5 */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={3}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
-                <p className="text-4xl font-bold text-green-500">얘도 더미데이터</p>
-              </motion.div>
               {/* 카드 6 */}
               <motion.div
                 className="bg-white rounded-2xl shadow-lg p-4"
