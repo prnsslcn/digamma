@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { usePlace } from '@/context/PlaceContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { places } from '../data/placesData';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
@@ -10,33 +10,6 @@ const markerPlaces = [
   { id: 'seoulPlaza', coords: [126.9779692, 37.566535] },
   { id: 'lotteTower', coords: [127.1025, 37.5131] },
 ];
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.95, rotate: -2 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    rotate: 0,
-    transition: {
-      delay: i * 0.05,
-      type: 'spring',
-      stiffness: 80,
-      damping: 12,
-    },
-  }),
-  exit: (i) => ({
-    opacity: 0,
-    y: 20,
-    scale: 0.9,
-    rotate: 3,
-    transition: {
-      delay: i * 0.05,
-      duration: 0.35,
-      ease: 'easeInOut',
-    },
-  }),
-};
 
 export default function MapSection() {
   const mapContainer = useRef(null);
@@ -71,134 +44,122 @@ export default function MapSection() {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen">
+      <div className="relative w-screen h-screen">
         <div className="absolute top-6 right-6 z-30">
-        <button
-          className="bg-white shadow-md px-4 py-2 rounded-xl font-semibold hover:bg-indigo-500 hover:text-white transition"
-          onClick={() => window.fullpage_api.moveSlideRight()}
-        >
-          마이페이지 →
-        </button>
-      </div>
-      <div className="w-full h-full" ref={mapContainer} />
-
-      <AnimatePresence>
-        {showFocusCard && summary && (
-          <motion.div
-            className="absolute inset-0 z-20 flex justify-center items-center pointer-events-auto"
-            initial="hidden"
-            animate="visible"
-            exit="exit"
+          <button
+              className="bg-white shadow-md px-4 py-2 rounded-xl font-semibold hover:bg-indigo-500 hover:text-white transition"
+              onClick={() => window.fullpage_api.moveSlideRight()}
           >
-            <motion.div
-                className="absolute inset-0 z-10 bg-white/30 backdrop-blur-sm"
-                initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-                animate={{ opacity: 1, backdropFilter: 'blur(8px)', transition: { duration: 0.6 } }}
-                exit={{ opacity: 0, backdropFilter: 'blur(0px)', transition: { duration: 0.4 } }}
-                onClick={() => setShowFocusCard(false)}
-            />
-            <div
-              className="relative z-20 flex flex-wrap justify-center items-center gap-4 max-w-5xl w-full px-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* 카드 4 */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={3}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl text-gray-500 mb-1">{summary.name} 방문자 수</h3>
-                <p className="text-5xl font-bold text-gray-900">{summary.todayVisitors.toLocaleString()}명</p>
-              </motion.div>
+            마이페이지 →
+          </button>
+        </div>
+        <div className="w-full h-full" ref={mapContainer} />
 
-              {/* 카드 5 */}
-              <motion.div
-                className="bg-red-500 text-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={4}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
+        {/* 포커스 카드 영역 */}
+        <motion.div
+            className={`absolute inset-0 z-20 flex justify-center items-center transition-opacity duration-500 ${
+                showFocusCard ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+            initial={false}
+            animate={{ opacity: showFocusCard ? 1 : 0 }}
+        >
+          {/* 배경 블러 */}
+          <div
+              className="absolute inset-0 z-10 bg-white/30 backdrop-blur-sm transition-all duration-500"
+              onClick={() => setShowFocusCard(false)}
+          />
+          {/* 카드들 */}
+          {summary && (
+              <div
+                  className="relative z-20 flex flex-wrap justify-center items-center gap-4 max-w-5xl w-full px-6"
+                  onClick={(e) => e.stopPropagation()}
               >
-                <h3 className="text-xl font-medium mb-1">행사</h3>
-                <ul className="text-2xl space-y-1">
-                  {summary.events.map((e, idx) => (
-                    <li key={idx}>{e}</li>
-                  ))}
-                </ul>
-              </motion.div>
+                {/* 방문자 카드 */}
+                <motion.div
+                    className="bg-white rounded-2xl shadow-lg p-4"
+                    style={{ willChange: 'transform, opacity' }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ y: -8 }}
+                >
+                  <h3 className="text-xl text-gray-500 mb-1">{summary.name} 방문자 수</h3>
+                  <p className="text-5xl font-bold text-gray-900">{summary.todayVisitors.toLocaleString()}명</p>
+                </motion.div>
 
-              {/* 카드 3 */}
-              <motion.div
-                className="bg-blue-600 text-white w-1/5 rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={2}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl font-medium mb-1">관심 키워드</h3>
-                <div className="flex flex-wrap gap-2">
-                  {summary.tags.map((tag) => (
-                    <span key={tag} className="bg-white/20 text-white text-l px-3 py-1 rounded-full">#{tag}</span>
-                  ))}
-                </div>
-              </motion.div>
+                {/* 행사 카드 */}
+                <motion.div
+                    className="bg-red-500 text-white rounded-2xl shadow-lg p-4"
+                    style={{ willChange: 'transform, opacity' }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ y: -8 }}
+                >
+                  <h3 className="text-xl font-medium mb-1">행사</h3>
+                  <ul className="text-2xl space-y-1">
+                    {summary.events.map((e, idx) => (
+                        <li key={idx}>{e}</li>
+                    ))}
+                  </ul>
+                </motion.div>
 
-              {/* 카드 4 */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={4}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
-                <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
-              </motion.div>
+                {/* 키워드 카드 */}
+                <motion.div
+                    className="bg-blue-600 text-white w-1/5 rounded-2xl shadow-lg p-4"
+                    style={{ willChange: 'transform, opacity' }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ y: -8 }}
+                >
+                  <h3 className="text-xl font-medium mb-1">관심 키워드</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {summary.tags.map((tag) => (
+                        <span key={tag} className="bg-white/20 text-white text-l px-3 py-1 rounded-full">#{tag}</span>
+                    ))}
+                  </div>
+                </motion.div>
 
-              {/* 카드 6 */}
-              <motion.div
-                className="bg-white rounded-2xl shadow-lg p-4"
-                variants={cardVariants}
-                custom={4}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
-                <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
-              </motion.div>
-              {/* 트리거 카드 */}
-              <motion.div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowFocusCard(false);
-                  window.fullpage_api.moveSectionDown();
-                }}
-                className="cursor-pointer bg-white rounded-2xl shadow-lg p-6 flex items-center justify-center text-4xl font-bold text-indigo-600 hover:bg-indigo-600 hover:text-white"
-                variants={cardVariants}
-                custom={5}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ y: -8 }}
-              >
-                자세히 보기 →
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+                {/* 더미 카드 */}
+                <motion.div
+                    className="bg-white rounded-2xl shadow-lg p-4"
+                    style={{ willChange: 'transform, opacity' }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ y: -8 }}
+                >
+                  <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
+                  <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
+                </motion.div>
+
+                {/* 더미 카드2 */}
+                <motion.div
+                    className="bg-white rounded-2xl shadow-lg p-4"
+                    style={{ willChange: 'transform, opacity' }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ y: -8 }}
+                >
+                  <h3 className="text-xl text-gray-500 mb-1">안녕하세요</h3>
+                  <p className="text-4xl font-bold text-green-500">더미데이터입니다</p>
+                </motion.div>
+
+                {/* 자세히 보기 트리거 */}
+                <motion.div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowFocusCard(false);
+                      window.fullpage_api.moveSectionDown();
+                    }}
+                    className="cursor-pointer bg-white rounded-2xl shadow-lg p-6 flex items-center justify-center text-4xl font-bold text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                    style={{ willChange: 'transform, opacity' }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ y: -8 }}
+                >
+                  자세히 보기 →
+                </motion.div>
+              </div>
+          )}
+        </motion.div>
+      </div>
   );
 }
