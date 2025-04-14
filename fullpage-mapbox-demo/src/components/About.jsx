@@ -57,7 +57,7 @@ export default function About() {
       {/* 위로 이동 버튼 */}
       <button
         onClick={() => window.fullpage_api.moveSectionUp()}
-        className="z-10 absolute top-6 mt-6 right-6 bg-gray-200 border-gray-300 rounded-full p-3 hover:bg-indigo-600 hover:text-white transition-colors"
+        className="z-10 absolute top-6 mt-6 right-6 bg-gray-300 rounded-full p-3 hover:bg-indigo-600 hover:text-white transition-colors"
         aria-label="이전 섹션으로 이동"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
